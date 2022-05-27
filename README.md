@@ -11,3 +11,6 @@ Implemented:
 Web service in flask
 Displaying information
 Light harmonogram
+
+Requirements:
+python modules - time, sqlite3, flask, flask_login, flask_wtf, wtforms, config, app

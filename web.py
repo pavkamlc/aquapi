@@ -2,8 +2,9 @@
 
 import time
 import sqlite3
-from flask import Flask, render_template, request, redirect, flash
-from flask_login import LoginManager, login_required
+import flask
+from flask import Flask, render_template, redirect, flash, url_for
+from flask_login import LoginManager, login_required, logout_user, login_user
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -60,15 +61,15 @@ def login():
 
         next = flask.request.args.get('next')
 
-        if not is_safe_url(next):
+        if not flask.is_safe_url(next):
             return flask.abort(400)
 
-        return redirect(next or flask.url_for('/'))
+        return redirect(next or url_for('/'))
     return render_template('login.html', form=form)
     
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(somewhere)    
+    return redirect(url_for('/login'))    
         
