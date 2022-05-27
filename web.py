@@ -4,7 +4,7 @@ import time
 import sqlite3
 import flask
 from flask import Flask, render_template, redirect, flash, url_for
-from flask_login import LoginManager, login_required, logout_user, login_user
+from flask_login import LoginManager, UserMixin, login_required, logout_user, login_user
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -39,7 +39,8 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    
+    return UserMixin.get(user_id)
 
 @app.route("/configure", methods=['GET', 'POST'])
 @login_required
@@ -55,6 +56,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
 
+        user = UserMixin()
         login_user(user)
 
         flash('Logged in successfully.')
@@ -71,5 +73,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('/login'))    
-        
+    return redirect(url_for('/login'))
