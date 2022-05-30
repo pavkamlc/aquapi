@@ -47,7 +47,11 @@ def load_user(user_id):
 def configure():
     return render_template('configure.html', configs=configs)
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
+def route():
+    return redirect('/overview')
+
+@app.route("/overview", methods=['GET', 'POST'])
 def index():
     return render_template('index.html', configs=configs)
 
@@ -66,7 +70,7 @@ def login():
         if not flask.is_safe_url(next):
             return flask.abort(400)
 
-        return redirect(next or url_for('/'))
+        return redirect(next or url_for('/overview'))
     return render_template('login.html', form=form)
     
 @app.route("/logout")
