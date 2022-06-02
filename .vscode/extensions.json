@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "alexcvzz.vscode-sqlite",
+        "cweijan.vscode-database-client2",
+        "mtxr.sqltools-driver-sqlite"
+    ]
+}

@@ -33,15 +33,15 @@ GPIO.output(M1, 1)
 time.sleep(1)
 
 try:
- while True:
-  print("PWM:5")
-  PWM_A.ChangeDutyCycle(10)
-  PWM_B.ChangeDutyCycle(10)
-  time.sleep(1)
-  print("PWM:75")
-  PWM_A.ChangeDutyCycle(20)
-  PWM_B.ChangeDutyCycle(20)
-  time.sleep(1)
+    while True:
+        print("PWM:5")
+        PWM_A.ChangeDutyCycle(10)
+        PWM_B.ChangeDutyCycle(10)
+        time.sleep(1)
+        print("PWM:75")
+        PWM_A.ChangeDutyCycle(20)
+        PWM_B.ChangeDutyCycle(20)
+        time.sleep(1)
 
 except KeyboardInterrupt:
- GPIO.cleanup()
+    GPIO.cleanup()
