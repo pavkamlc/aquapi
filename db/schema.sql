@@ -2,8 +2,9 @@ DROP TABLE IF EXISTS config;
 CREATE TABLE config (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    configname TEXT NOT NULL,
-    configvalue TEXT NOT NULL
+    mqtt_host TEXT NOT NULL,
+    mqtt_port INTEGER NOT NULL,
+    mqtt_topic TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS users;

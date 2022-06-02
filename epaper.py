@@ -3,7 +3,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import traceback
 import time
-import lib.waveshare_epd.epd2in7
+from lib.waveshare_epd import epd2in7
 import logging
 import sys
 import os

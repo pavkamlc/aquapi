@@ -19,7 +19,7 @@ import app
 import threading
 import atexit
 
-import db
+import dbaccess
 import mqtt
 import motor
 import epaper
@@ -56,15 +56,6 @@ class LoginForm(FlaskForm):
     user_name = StringField('UserName', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
-
-
-conn = sqlite3.connect('aquapi.db')
-#conn.row_factory = sqlite3.Row
-cur = conn.cursor()
-configs = cur.execute('SELECT * FROM aquapi').fetchall()
-print(configs[0])
-print(configs[1])
-conn.close()
 
 login_manager = LoginManager()
 
@@ -120,6 +111,5 @@ def login():
 def logout():
     logout_user()
     return redirect('/login')
-
-
+    
 app.run(debug=True, use_debugger=True, use_reloader=False)
