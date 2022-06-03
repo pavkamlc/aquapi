@@ -3,37 +3,43 @@
 import time
 import paho.mqtt.client as paho
 
-import dbaccess
+mqttclient = paho.Client()  # create client object
 
-print("start")
+def mqttconnect(host, port):
 
-config = dbaccess.dbgetconfig()
-#topic = config.topic
+    def on_disconnect(client, userdata, rc):
+        print("client disconnected ok")
 
-client1 = paho.Client()  # create client object
+    def on_publish(client, userdata, result):  # create function for callback
+        print("data published \n")
+        pass
 
-ret = 0
+    def on_connect(mosq, userdata, flags, rc):
+        print(rc)
+        print('connect event')
 
-def on_disconnect(client, userdata, rc):
-    print("client disconnected ok")
+    def on_connect_fail(client, userdata, flags, rc):
+        print("failed to connect")
 
+    def on_message(client, userdata, msg):
+        try:
+            print(msg)
+        except:
+            print('message event')
 
-def on_publish(client, userdata, result):  # create function for callback
-    print("data published \n")
-    pass
+    mqttclient.on_publish = on_publish  # assign function to callback
+    mqttclient.on_disconnect = on_disconnect
+    mqttclient.on_connect = on_connect
+    mqttclient.on_message = on_message
+    mqttclient.on_connect_fail = on_connect_fail
 
-client1.on_publish = on_publish  # assign function to callback
-client1.on_disconnect = on_disconnect
+    try:
+        print("mqtt connection")
+        #mqttclient.connect(host, port)  # establish connection
 
-try:
-    client1.connect(config['mqtt_host'], config['mqtt_port'])  # establish connection
-    while True:
-        print('Publish topic')
-        ret = client1.publish("house/bulb1", "on")  # publish
-        time.sleep(1)
+    except (Exception, ConnectionError, ConnectionRefusedError):
+        print("stop")
 
-except (Exception, ConnectionError, ConnectionRefusedError):
-    print("stop")
-    client1.disconnect()
-
-client1.disconnect()
+def mqttsend(topic):
+    print('Publish topic')
+    return mqttclient.publish("house/bulb1", "on")  # publish

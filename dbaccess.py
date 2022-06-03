@@ -1,6 +1,7 @@
 #from distutils.util import execute
 import os
 import sqlite3
+import bcrypt
 
 dbfile = r'db\aquapi.sqlite'
 connection = sqlite3.Connection
@@ -42,6 +43,10 @@ def dbputconfig(config):
 
     connection.commit()
     connection.close()
+
+def mypassword(mypassword):
+    mysalt = bcrypt.gensalt()
+    myhash = bcrypt.hashpw(mypassword, mysalt)
 
 # if database not found
 if not os.path.isfile(dbfile):
