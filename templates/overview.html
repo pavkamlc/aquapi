@@ -6,7 +6,7 @@
             <td><img src="static/aqua.png" alt="Aquarium" width="128" height="128" /><strong><br /></strong></td>
             <td>
                 <h1>Aqua control</h1>
-                <h2>{% if current_user.is_authenticated %} User: {{ current_user.name }} {% else %} no logged {% endif
+                <h2>{% if current_user.is_authenticated %} User: {{ current_user.username }} {% else %} no logged {% endif
                     %}</h2>
             </td>
         </tr>
@@ -30,28 +30,41 @@
             <td>Air humidity</td>
             <td>0</td>
         </tr>
+        <tr><td><strong>Diplay</strong></td><td><input type="checkbox" id="display" name="display" value="0"></td></tr>
         <tr>
-            <td><strong>MQTT</strong></td>
-            <td>&nbsp;</td>
+            <td>Food - daily amount</td>
+            <td>0</td>
         </tr>
         <tr>
-            <td>host</td>
+            <td>Food - daily count</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td><strong>MQTT</strong></td>
+            <td><input type="checkbox" id="mqtt" name="mqtt" value="0"></td>
+        </tr>
+        <tr>
+            <td>Host</td>
             <td>{% block mqtt_host %}localhost{% endblock mqtt_host %}</td>
         </tr>
         <tr>
-            <td>port</td>
+            <td>Port</td>
             <td>1883</td>
         </tr>
         <tr>
-            <td>topic</td>
+            <td>Topic</td>
             <td>/topic/aqua</td>
         </tr>
         <tr>
-            <td><strong>Light channel A</strong></td>
-            <td>&nbsp;</td>
+            <td><strong>Lights</strong></td>
+            <td>0%</td>
         </tr>
         <tr>
-            <td>Current</td>
+            <td>Light channels count</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td><i>Light channel %chan%</i></td>
             <td>0%</td>
         </tr>
         <tr>
