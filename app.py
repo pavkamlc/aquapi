@@ -27,10 +27,13 @@ dataLock = threading.Lock()
 actionThread = threading.Thread()  
 login_manager = LoginManager()
 
+db = SQLAlchemy()
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///aquapi.sqlite'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/aquapi.sqlite'
-db = SQLAlchemy(app)
+db.init_app(app)
+
+app.app_context().push()
 
 class AquaUser(db.Model, UserMixin):
     __tablename__ = 'users'
