@@ -35,11 +35,18 @@ def mqttconnect(host, port):
 
     try:
         print("mqtt connection")
-        #mqttclient.connect(host, port)  # establish connection
+        mqttclient.connect(host, port)  # establish connection
 
-    except (Exception, ConnectionError, ConnectionRefusedError):
-        print("stop")
+    except ConnectionRefusedError:
+        print("Connection Refused")
+    except ConnectionError:
+        print("Connection Error")
+    except Exception as err:
+        print("Generic Exception: ", err)
 
 def mqttsend(topic):
     print('Publish topic')
     return mqttclient.publish("house/bulb1", "on")  # publish
+
+mqttconnect('badhost',1)
+mqttsend('send')
