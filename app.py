@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import importlib
 from enum import unique
 from click import password_option
 from flask import Flask, render_template, redirect, flash, url_for
@@ -9,11 +10,20 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
+import gettext #localisations
+applocale = gettext.translation('base', localedir='locales',languages=['cs'])
+applocale.install()
+_ = applocale.gettext
+
 from config import Config
 
-import threading
+#import threading
 
-import mqtt
+#import mqtt
+
+module = importlib.find_loader('mqtt', 'plugins')
+mqtt = importlib.import_module('plugins.mqtt')
+
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
@@ -23,8 +33,8 @@ from flask_sqlalchemy import SQLAlchemy
 POOL_TIME = 5
 
 dataDo = 0
-dataLock = threading.Lock()
-actionThread = threading.Thread()  
+#dataLock = threading.Lock()
+#actionThread = threading.Thread()  
 login_manager = LoginManager()
 
 db = SQLAlchemy()
@@ -71,7 +81,7 @@ def actionDo():
 
     global dataDo
 
-    print(dataDo, 'Read temperature...')
+    print(dataDo, _('Read temperature...'))
     print(dataDo, 'Read watter level...')
     print(dataDo, 'Redraw info display...')
     
@@ -79,8 +89,8 @@ def actionDo():
     print(dataDo, 'Publish mqtt data...')
     dataDo = dataDo + 1
 
-    actionThread = threading.Timer(POOL_TIME, actionDo, ())
-    actionThread.start()
+    #actionThread = threading.Timer(POOL_TIME, actionDo, ())
+    #actionThread.start()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -162,8 +172,8 @@ if not myconfig:
 else: myconfig = AquaConfig.query().first()
 db.session.commit()
 
-actionThread = threading.Timer(POOL_TIME, actionDo, ())
-actionThread.start()  
+#actionThread = threading.Timer(POOL_TIME, actionDo, ())
+#actionThread.start()  
 
 app.config.from_object(AquaConfig)
 

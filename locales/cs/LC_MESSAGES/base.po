@@ -1,0 +1,5 @@
+msgid ""
+msgstr ""
+
+msgid "'Read temperature...'"
+msgstr "Čterní teploty..."

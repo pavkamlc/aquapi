@@ -1,5 +1,6 @@
 # aquapi
 Aquarium control from raspberry
+Plugins in folder plugins capable
 
 Hardware:
 Rasperry PI zero W - controller
