@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 
+from Plugin import Plugin
 import time
 import paho.mqtt.client as paho
+
+class PluginMQTT(Plugin):
+    def __init__(self):
+        raise AttributeError("undefined init method") 
 
 mqttclient = paho.Client()  # create client object
 

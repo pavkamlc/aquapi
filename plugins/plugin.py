@@ -1,3 +1,4 @@
+
 class Plugin:
     def __init__(self):
         raise AttributeError("undefined init method")

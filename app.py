@@ -11,7 +11,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
 import gettext #localisations
-applocale = gettext.translation('base', localedir='locales',languages=['cs'])
+applocale = gettext.translation('base', localedir='locales/',languages=['cs'])
 applocale.install()
 _ = applocale.gettext
 
@@ -21,8 +21,8 @@ from config import Config
 
 #import mqtt
 
-module = importlib.find_loader('mqtt', 'plugins')
-mqtt = importlib.import_module('plugins.mqtt')
+module = importlib.find_loader('PluginMQTT', 'plugins')
+mqtt = importlib.import_module('plugins.PluginMQTT')
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
