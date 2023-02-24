@@ -27,64 +27,18 @@ myobject.readconfig()
 myobject.load()
 
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
 
 POOL_TIME = 5
 
-dataDo = 0
 login_manager = LoginManager()
 
-db = SQLAlchemy()
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../static/templates')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///aquapi.sqlite'
 
 db.init_app(app)
 
 app.app_context().push()
-
-class AquaUser(db.Model, UserMixin):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False, unique=False)
-    email = db.Column(db.String, nullable=False, unique=True)
-    active = db.Column(db.Boolean, nullable=False, default=True)
-    created = db.Column(db.Time, nullable=True)
-
-    @property
-    def is_active(self):
-        return self.active
-    
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-class AquaConfig(db.Model):
-    __tablename__ = 'config'
-    id = db.Column(db.Integer, primary_key=True)
-    mqtt_host = db.Column(db.String, nullable=False, unique=True)
-    mqtt_port = db.Column(db.Integer, nullable=False, unique=True, default=1883)
-    mqtt_topic = db.Column(db.String, nullable=False, unique=True)
-    config_date = db.Column(db.Date, nullable=False, unique=True)
-    created = db.Column(db.Time, nullable=True)
-
-class AquaLight(db.Model):
-    __tablename__ = 'light'
-    id = db.Column(db.Integer, primary_key=True)
-    lightchannel = db.Column(db.Integer, nullable=False)
-    lightminute = db.Column(db.Integer, nullable=False)
-    lightvalue = db.Column(db.SmallInteger, nullable=False)
-
-def actionDo():
-
-    global dataDo
-
-    print(dataDo, _('Read temperature...'))
-    print(dataDo, 'Read watter level...')
-    print(dataDo, 'Redraw info display...')
-    
-    print(dataDo, 'Setup lights...')
-    print(dataDo, 'Publish mqtt data...')
-    dataDo = dataDo + 1
 
 @login_manager.user_loader
 def load_user(user_id):
