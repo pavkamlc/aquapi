@@ -17,24 +17,21 @@ _ = applocale.gettext
 
 from config import Config
 
-#import threading
-
-#import mqtt
-
+#discover and init in configuration enabled plugins like motor,epaper,mqtt
+#foreach importlib.search....
 module = importlib.find_loader('PluginMQTT', 'plugins')
-mqtt = importlib.import_module('plugins.PluginMQTT')
+mymodule = importlib.import_module('plugins.pluginMQTT')
+myclass = getattr(mymodule, 'PluginMQTT')
+myobject = myclass()
+myobject.readconfig()
+myobject.load()
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
-#import motor
-#import epaper
-
 POOL_TIME = 5
 
 dataDo = 0
-#dataLock = threading.Lock()
-#actionThread = threading.Thread()  
 login_manager = LoginManager()
 
 db = SQLAlchemy()
@@ -89,9 +86,6 @@ def actionDo():
     print(dataDo, 'Publish mqtt data...')
     dataDo = dataDo + 1
 
-    #actionThread = threading.Timer(POOL_TIME, actionDo, ())
-    #actionThread.start()
-
 @login_manager.user_loader
 def load_user(user_id):
     user = AquaUser(id=user_id)
@@ -104,7 +98,6 @@ def configure():
 
 @app.route("/")
 def index():
-    # return redirect('/index.html')
     return render_template('index.html')
 
 @app.route('/users')
@@ -114,7 +107,6 @@ def aquausers():
 @app.route("/overview", methods=['GET', 'POST'])
 def myindex():
     return render_template('overview.html', configs=myconfig)
-    #return render_template('overview.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -172,13 +164,8 @@ if not myconfig:
 else: myconfig = AquaConfig.query().first()
 db.session.commit()
 
-#actionThread = threading.Timer(POOL_TIME, actionDo, ())
-#actionThread.start()  
-
 app.config.from_object(AquaConfig)
 
 login_manager.init_app(app)
-
-mqtt.mqttconnect(myconfig.mqtt_host, myconfig.mqtt_port)
    
 app.run(debug=True, use_debugger=True, use_reloader=False)
