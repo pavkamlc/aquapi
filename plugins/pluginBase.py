@@ -1,5 +1,5 @@
 
-class Plugin:
+class PluginBase:
     def __init__(self):
         raise AttributeError("undefined init method")
     
@@ -12,7 +12,7 @@ class Plugin:
         raise AttributeError("undefined setup method")
     
     # render data to web
-    def view(self):
+    def render(self):
         raise AttributeError("undefined view method")
     
     # repeated action w/wo time parameter

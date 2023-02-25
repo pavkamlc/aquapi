@@ -2,6 +2,7 @@
 
 import os
 import importlib
+
 from enum import unique
 from click import password_option
 from flask import Flask, render_template, redirect, flash, url_for
@@ -10,12 +11,13 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
+from config import AquaConfig
+
 import gettext #localisations
+
 applocale = gettext.translation('base', localedir='locales/',languages=['cs'])
 applocale.install()
 _ = applocale.gettext
-
-from config import Config
 
 #discover and init in configuration enabled plugins like motor,epaper,mqtt
 #foreach importlib.search....
@@ -35,8 +37,6 @@ login_manager = LoginManager()
 app = Flask(__name__, template_folder='../static/templates')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///aquapi.sqlite'
-
-db.init_app(app)
 
 app.app_context().push()
 
@@ -95,27 +95,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
-db.create_all()
-
-if not AquaUser.query.filter_by(username='admin').first():
-    admin = AquaUser(username='admin', email='admin@example.com', password = 'asdf')
-    db.session.add(admin)
-if not AquaUser.query.filter_by(username='guest').first():
-    guest = AquaUser(username='guest', email='guest@example.com', password='')
-    db.session.add(guest)
-db.session.commit()
-
 if not AquaLight.query.count() > 0:
     lightup = AquaLight(lightchannel=1, lightminute=0, lightvalue=255)
     db.session.add(lightup)
     lightdown = AquaLight(lightchannel=1, lightminute=60*12, lightvalue=0)
     db.session.add(lightdown)
-db.session.commit()
-
-myconfig = AquaConfig.query.first()
-if not myconfig:
-    myconfig = AquaConfig(mqtt_host='127.0.0.1', mqtt_port='1883', mqtt_topic = '/aquapi')
-else: myconfig = AquaConfig.query().first()
 db.session.commit()
 
 app.config.from_object(AquaConfig)

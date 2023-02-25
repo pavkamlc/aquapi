@@ -13,3 +13,11 @@ class AquaUser(db.Model, UserMixin):
     
     def __repr__(self):
         return '<User %r>' % self.username
+    
+if not AquaUser.query.filter_by(username='admin').first():
+    admin = AquaUser(username='admin', email='admin@example.com', password = 'asdf')
+    db.session.add(admin)
+if not AquaUser.query.filter_by(username='guest').first():
+    guest = AquaUser(username='guest', email='guest@example.com', password='')
+    db.session.add(guest)
+db.session.commit()    

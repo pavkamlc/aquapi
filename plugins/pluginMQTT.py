@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import plugins.plugin
+import plugins.pluginBase
 import time
 import paho.mqtt.client as paho
 
@@ -9,7 +9,7 @@ mqttport = 0
 
 mqttclient = paho.Client()  # create client object
 
-class PluginMQTT(plugins.plugin.Plugin):
+class PluginMQTT(plugins.pluginBase.PluginBase):
     def __init__(self):
         mqttclient.on_publish = on_publish  # assign function to callback
         mqttclient.on_disconnect = on_disconnect
