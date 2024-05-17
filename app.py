@@ -12,6 +12,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
 from config import AquaConfig
+from user import AquaUser
 
 import gettext #localisations
 
