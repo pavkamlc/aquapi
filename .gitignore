@@ -1,0 +1,4 @@
+*.pyc
+__pycache__/*.pyc
+plugins/__pycache__/PluginMQTT.cpython-310.pyc
+plugins/__pycache__/pluginMQTT.cpython-310.pyc
