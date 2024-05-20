@@ -12,12 +12,10 @@ class aquaConfig(aquadb.aqua_db.Model):
     
     def aquaconfigInit():
         # if not exist table config then create default
-        aqua_config = sqlalchemy.inspect(aquadb.aqua_db.engine).has_table('config')
-        if not aqua_config:
+        if sqlalchemy.inspect(aquadb.aqua_db.engine).has_table('config'):
             aqua_config = aquaConfig(mqtt_host='127.0.0.1', mqtt_port='1883', mqtt_topic = '/aquapi')
-
-        else: aqua_config = aquaConfig.query().first()
-        
-        aquadb.aqua_db.session.commit()   
+            aquadb.aqua_db.session.commit()
+            
+aqua_config = aquaConfig.query().first()   
         
 aqua_config = aquaConfig()         

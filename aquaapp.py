@@ -19,7 +19,6 @@ _ = applocale.gettext
 
 #discover and init in configuration enabled plugins like motor,epaper,mqtt
 #foreach importlib.search....
-#module = importlib.find_loader('PluginMQTT', 'plugins')
 module = importlib.util.find_spec('PluginMQTT', 'plugins')
 mymodule = importlib.import_module('plugins.pluginMQTT')
 myclass = getattr(mymodule, 'PluginMQTT')
