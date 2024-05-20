@@ -10,9 +10,6 @@ from flask_login import LoginManager, login_required, logout_user, login_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
-from flask_sqlalchemy import SQLAlchemy
-
-global aqua_db
 
 import gettext #localisations
 
@@ -22,7 +19,8 @@ _ = applocale.gettext
 
 #discover and init in configuration enabled plugins like motor,epaper,mqtt
 #foreach importlib.search....
-module = importlib.find_loader('PluginMQTT', 'plugins')
+#module = importlib.find_loader('PluginMQTT', 'plugins')
+module = importlib.util.find_spec('PluginMQTT', 'plugins')
 mymodule = importlib.import_module('plugins.pluginMQTT')
 myclass = getattr(mymodule, 'PluginMQTT')
 myobject = myclass()
@@ -36,15 +34,15 @@ POOL_TIME = 5
 login_manager = LoginManager()
 
 app = Flask(__name__, template_folder='static/templates')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///aquapi.sqlite'
-app.app_context().push()
 
-aqua_db = SQLAlchemy()
-aqua_db.init_app(app)
-aqua_db.create_all()
+import aquadb
+aquadb.aquadbInit(app)
 
 import aquaconfig
+aquaconfig.aquaConfig.aquaconfigInit()
+
 import aquauser
+aquauser.aquaUser.aquauser_init()
 
 @login_manager.user_loader
 def load_user(user_id):
